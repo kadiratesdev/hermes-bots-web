@@ -1,5 +1,5 @@
 name: hermes-bots
-version: 1.0.1
+version: 1.0.2
 description: "Bot Mode for the Hermes web dashboard — roster of named agent profiles with chat + routines."
 author: kadiratesdev
 kind: standalone

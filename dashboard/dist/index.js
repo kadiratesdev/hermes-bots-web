@@ -4,6 +4,20 @@
   const SDK = window.__HERMES_PLUGIN_SDK__;
   if (!SDK || !SDK.React || !window.__HERMES_PLUGINS__) return;
 
+  if (!document.getElementById("hermes-bots-css")) {
+    const style = document.createElement("style");
+    style.id = "hermes-bots-css";
+    style.textContent = [
+      ".hb-page{width:100%;max-width:72rem;margin:0 auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem;box-sizing:border-box;}",
+      ".hb-dialog-body{padding:1.25rem 1.25rem 1rem;display:grid;gap:1rem;min-width:0;box-sizing:border-box;}",
+      ".hb-dialog-body p,.hb-dialog-body label,.hb-dialog-body input,.hb-dialog-body textarea,.hb-dialog-body select{max-width:100%;box-sizing:border-box;}",
+      ".hb-dialog-footer{padding:0.75rem 1.25rem !important;gap:0.5rem;}",
+      ".hb-dialog-header{padding-right:2.75rem !important;}",
+      ".hb-hint{margin:0;line-height:1.5;}",
+    ].join("");
+    document.head.appendChild(style);
+  }
+
   const { React } = SDK;
   const h = React.createElement;
   const C = SDK.components || {};
@@ -394,7 +408,7 @@
     const DialogFooter = C.DialogFooter || "div";
     const Checkbox = C.Checkbox;
 
-    const createFields = h("div", { className: "grid gap-4 px-5 py-4" },
+    const createFields = h("div", { className: "hb-dialog-body" },
       h("div", { className: "grid gap-2" },
         h(FieldLabel, { htmlFor: "bot-name" }, "Ad"),
         h(TextInput, {
@@ -404,7 +418,7 @@
           placeholder: "ornek-bot",
           onChange: function (e) { setNewName(e.target.value); },
         }),
-        h("p", { className: "text-xs leading-relaxed text-muted-foreground" }, "Küçük harf, rakam, tire ve alt çizgi. En fazla 64 karakter.")
+        h("p", { className: "hb-hint text-xs text-muted-foreground" }, "Küçük harf, rakam, tire ve alt çizgi. En fazla 64 karakter.")
       ),
       h("div", { className: "grid gap-2" },
         h(FieldLabel, { htmlFor: "bot-desc" }, "Başlık / açıklama"),
@@ -455,8 +469,8 @@
 
     const createActions = h(DialogFooter, {
       className: DialogFooter === "div"
-        ? "flex flex-wrap items-center justify-end gap-2 border-t border-midground/15 px-5 py-3"
-        : "border-t border-midground/15 px-5",
+        ? "hb-dialog-footer flex flex-wrap items-center justify-end border-t border-midground/15"
+        : "hb-dialog-footer",
     },
       h(Btn, {
         type: "button",
@@ -478,8 +492,11 @@
           open: showCreate,
           onOpenChange: setShowCreate,
         },
-          h(DialogContent, { className: "w-[calc(100%-2rem)] max-w-lg" },
-            h(DialogHeader, { className: "pr-10" },
+          h(DialogContent, {
+            className: "max-w-lg",
+            style: { width: "calc(100% - 2rem)", maxWidth: "32rem" },
+          },
+            h(DialogHeader, { className: "hb-dialog-header" },
               h(DialogTitle, null, "Yeni ajan"),
               h(DialogDescription, null, "Yeni bir Hermes profili oluşturur. Sohbet ve rutinler bu bota bağlanır.")
             ),
@@ -581,11 +598,12 @@
 
     const pendingJob = jobs.filter(function (j) { return j.id === jobDel.pendingId; })[0];
 
-    return h("div", { className: "mx-auto flex w-full max-w-6xl flex-col gap-4 p-4" },
+    return h("div", { className: "hb-page" },
       h("div", null,
         h("h1", { className: "text-2xl font-semibold tracking-tight" }, "Botlar"),
         h("p", { className: "text-sm text-muted-foreground" },
-          "Her Hermes profili bir bottur. Sohbet açın, açıklama düzenleyin, rutinler zamanlayın.")
+          "Her Hermes profili bir bottur. Sohbet açın, açıklama düzenleyin, rutinler zamanlayın."),
+        h("p", { className: "hb-hint text-xs text-muted-foreground" }, "v1.0.2")
       ),
       h("div", { className: "grid gap-4 md:grid-cols-[minmax(280px,1fr)_minmax(280px,1fr)]" },
         h(Card, null,
