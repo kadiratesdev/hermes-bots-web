@@ -1,0 +1,9 @@
+{
+  "name": "hermes-bots",
+  "label": "Bots",
+  "description": "Named agent roster — one bot per Hermes profile. Open chat, create bots, schedule routines.",
+  "icon": "Sparkles",
+  "version": "1.0.1",
+  "tab": { "path": "/bots", "position": "after:chat" },
+  "entry": "dist/index.js"
+}
